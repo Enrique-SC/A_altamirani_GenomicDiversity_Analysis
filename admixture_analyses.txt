@@ -1,0 +1,22 @@
+### ADMIXTURE ### 
+
+#Remove characters from chromosome names, the progam only accept integers
+
+#Generate .bed, .bim and .fam to run adxmixture
+
+./plink --vcf alta.neutral.final.chroms.int.vcf --allow-extra-chr --make-bed --out alta.final.chroms.neutros.int
+
+#Running admixture
+
+#!/bin/bash
+#$ -l qname=default
+#$ -cwd
+#$ -pe smp 30
+#$ -e admix.error
+#$ -o admix.log
+#$ -N admix
+
+for K in 1 2 3 4 5 6 7 8 9; \
+do admixture --cv alta.final.chroms.neutros.int.bed $K |\
+tee alta.admixture.${K}.out; \
+done
