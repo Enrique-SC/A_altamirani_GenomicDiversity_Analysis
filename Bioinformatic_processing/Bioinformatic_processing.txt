@@ -1,0 +1,291 @@
+### 1. QUALITY CONTROL AND TRIMMING ###
+# Fastqc raw reads #
+
+fastqc *.fastq
+
+#Trimming with TrimGalore
+
+#!/bin/bash
+parallel trim_galore --paired --nextera --q 28 --clip_R1 21 --clip_R2 21 --gzip --fastqc -o trimmed_files/ {} {=s/_R1_/_R2_/=} ::: *_R1_001.fastq.gz
+
+### 2. MAPPING READS ####
+
+#Indexing and mapping reads to reference genome with bwa
+
+bwa index GCA_002915635.3_AmbMex60DD_genomic.fasta 
+
+
+#Mapping reads
+
+#!/bin/bash
+#$ -l qname=Big.q
+#$ -cwd
+#$ -e bwa.alt.error
+#$ -o bwa.alt.log
+#$ -N bwa.alt
+
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS01_S54_R1_001_val_1.fq.gz AlLS01_S54_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS01.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS02_S77_R1_001_val_1.fq.gz AlLS02_S77_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS02.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS03_S89_R1_001_val_1.fq.gz AlLS03_S89_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS03.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS04_S103_R1_001_val_1.fq.gz AlLS04_S103_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS04.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS05_S7_R1_001_val_1.fq.gz AlLS05_S7_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS05.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS06_S19_R1_001_val_1.fq.gz AlLS06_S19_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS06.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS07_S31_R1_001_val_1.fq.gz AlLS07_S31_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS07.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS08_S43_R1_001_val_1.fq.gz AlLS08_S43_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS08.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS09_S55_R1_001_val_1.fq.gz AlLS09_S55_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS09.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS10_S66_R1_001_val_1.fq.gz AlLS10_S66_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS10.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS11_S78_R1_001_val_1.fq.gz AlLS11_S78_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS11.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS12_S90_R1_001_val_1.fq.gz AlLS12_S90_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS12.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlLS13_S8_R1_001_val_1.fq.gz AlLS13_S8_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS13.paired.bam
+
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe01_S128_R1_001_val_1.fq.gz AlSe01_S128_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe01.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe02_S139_R1_001_val_1.fq.gz AlSe02_S139_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe02.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe03_S150_R1_001_val_1.fq.gz AlSe03_S150_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe03.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe04_S161_R1_001_val_1.fq.gz AlSe04_S161_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe04.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe05_S171_R1_001_val_1.fq.gz AlSe05_S171_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe05.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe06_S96_R1_001_val_1.fq.gz AlSe06_S96_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe06.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe07_S107_R1_001_val_1.fq.gz AlSe07_S107_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe07.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe08_S118_R1_001_val_1.fq.gz AlSe08_S118_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe08.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe09_S129_R1_001_val_1.fq.gz AlSe09_S129_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe09.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe10_S140_R1_001_val_1.fq.gz AlSe10_S140_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe10.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe11_S151_R1_001_val_1.fq.gz AlSe11_S151_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe11.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe12_S162_R1_001_val_1.fq.gz AlSe12_S162_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe12.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe13_S172_R1_001_val_1.fq.gz AlSe13_S172_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe13.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe14_S97_R1_001_val_1.fq.gz AlSe14_S97_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe14.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe15_S108_R1_001_val_1.fq.gz AlSe15_S108_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe15.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe16_S119_R1_001_val_1.fq.gz AlSe16_S119_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe16.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe17_S130_R1_001_val_1.fq.gz AlSe17_S130_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe17.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe18_S141_R1_001_val_1.fq.gz AlSe18_S141_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe18.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe19_S152_R1_001_val_1.fq.gz AlSe19_S152_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe19.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe20_S163_R1_001_val_1.fq.gz AlSe20_S163_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe20.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlSe21_S173_R1_001_val_1.fq.gz AlSe21_S173_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlSe21.paired.bam
+
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe01_S20_R1_001_val_1.fq.gz AlTe01_S20_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe01.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe02_S32_R1_001_val_1.fq.gz AlTe02_S32_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe02.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe03_S44_R1_001_val_1.fq.gz AlTe03_S44_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe03.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe04_S56_R1_001_val_1.fq.gz AlTe04_S56_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe04paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe05_S67_R1_001_val_1.fq.gz AlTe05_S67_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe05.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe06_S79_R1_001_val_1.fq.gz AlTe06_S79_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe06.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe07_S91_R1_001_val_1.fq.gz AlTe07_S91_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe07.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe08_S9_R1_001_val_1.fq.gz AlTe08_S9_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe08.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe09_S21_R1_001_val_1.fq.gz AlTe09_S21_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe09.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe10_S33_R1_001_val_1.fq.gz AlTe10_S33_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe10.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe11_S45_R1_001_val_1.fq.gz AlTe11_S45_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe11.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe12_S57_R1_001_val_1.fq.gz AlTe12_S57_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe12.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe13_S68_R1_001_val_1.fq.gz AlTe13_S68_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlTe13.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe14_S80_R1_001_val_1.fq.gz AlTe14_S80_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS14.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe15_S92_R1_001_val_1.fq.gz AlTe15_S92_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS15.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe16_S10_R1_001_val_1.fq.gz AlTe16_S10_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS16.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe17_S22_R1_001_val_1.fq.gz AlTe17_S22_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS17.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe18_S34_R1_001_val_1.fq.gz AlTe18_S34_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS18.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe19_S46_R1_001_val_1.fq.gz AlTe19_S46_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS19.paired.bam
+bwa mem -t 15 /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/ensamblaje/GCA_002915635.3_AmbMex60DD_genomic.fna AlTe20_S58_R1_001_val_1.fq.gz AlTe20_S58_R2_001_val_2.fq.gz | samtools view -Sb - | samtools sort -@ 15 -o AlLS20.paired.bam
+
+
+# Sorting with Picard #
+
+#!/bin/bash
+#$ -l qname=Big.q
+#$ -cwd
+#$ -e sorting.error
+#$ -o sorting.log
+#$ -N sorting.gra
+
+for f in $(ls /data2/BSyBS/esotocor/ddradseq/reads/granulosum/trimmed_files/BAM/*.bam)
+do
+        picard SortSam -I $f -O $"`basename $f _paired.bam`_sorted.bam" -SO=coordinate
+done
+
+# Removing duplicated reads with Picard
+
+#!/bin/bash
+for f in $(ls /home/esotocor/Doctorado/pilotos_raws/Analisis_Submuestras/8M/*.sorted_8.bam)
+do
+        picard MarkDuplicates ASSUME_SORTED=true I=$f O="`basename $f .cleaned.bam`.rmdp.bam" M=marked_dup_metrics.txt
+done
+
+#Removing secondary reads with Samtools
+
+#!/bin/bash
+
+for f in $(ls /home/esotocor/Doctorado/pilotos_raws/Analisis_Submuestras/8M/*.rmdp.bam)
+do
+        samtools view -b -F3332 $f > "`basename $f .sr.rmdp.bam.sorted_8.bam`.cleaned_8.bam"
+
+done
+
+### SNP CALLING
+
+# freebayes script bonampak
+
+#!/bin/bash
+bamaddrg -b AlLS01.cleaned.bam -s AlLS01 -r LS \
+-b AlLS02.cleaned.bam -s AlLS02 -r LS \
+-b AlLS03.cleaned.bam -s AlLS03 -r LS \
+-b AlLS04.cleaned.bam -s AlLS04 -r LS \
+-b AlLS05.cleaned.bam -s AlLS05 -r LS \
+-b AlLS06.cleaned.bam -s AlLS06 -r LS \
+-b AlLS07.cleaned.bam -s AlLS07 -r LS \
+-b AlLS08.cleaned.bam -s AlLS08 -r LS \
+-b AlLS09.cleaned.bam -s AlLS09 -r LS \
+-b AlLS10.cleaned.bam -s AlLS10 -r LS \
+-b AlLS11.cleaned.bam -s AlLS11 -r LS \
+-b AlLS12.cleaned.bam -s AlLS12 -r LS \
+-b AlLS13.cleaned.bam -s AlLS13 -r LS \
+-b AlSe01.cleaned.bam -s AlSe01 -r Se \
+-b AlSe02.cleaned.bam -s AlSe02 -r Se \
+-b AlSe03.cleaned.bam -s AlSe03 -r Se \
+-b AlSe04.cleaned.bam -s AlSe04 -r Se \
+-b AlSe05.cleaned.bam -s AlSe05 -r Se \
+-b AlSe06.cleaned.bam -s AlSe06 -r Se \
+-b AlSe07.cleaned.bam -s AlSe07 -r Se \
+-b AlSe08.cleaned.bam -s AlSe08 -r Se \
+-b AlSe09.cleaned.bam -s AlSe09 -r Se \
+-b AlSe10.cleaned.bam -s AlSe10 -r Se \
+-b AlSe11.cleaned.bam -s AlSe11 -r Se \
+-b AlSe12.cleaned.bam -s AlSe12 -r Se \
+-b AlSe13.cleaned.bam -s AlSe13 -r Se \
+-b AlSe14.cleaned.bam -s AlSe14 -r Se \
+-b AlSe15.cleaned.bam -s AlSe15 -r Se \
+-b AlSe16.cleaned.bam -s AlSe16 -r Se \
+-b AlSe17.cleaned.bam -s AlSe17 -r Se \
+-b AlSe18.cleaned.bam -s AlSe18 -r Se \
+-b AlSe19.cleaned.bam -s AlSe19 -r Se \
+-b AlSe20.cleaned.bam -s AlSe20 -r Se \
+-b AlSe21.cleaned.bam -s AlSe21 -r Se \
+-b AlTe01.cleaned.bam -s AlTe01 -r Te \
+-b AlTe02.cleaned.bam -s AlTe02 -r Te \
+-b AlTe03.cleaned.bam -s AlTe03 -r Te \
+-b AlTe04.cleaned.bam -s AlTe04 -r Te \
+-b AlTe05.cleaned.bam -s AlTe05 -r Te \
+-b AlTe06.cleaned.bam -s AlTe06 -r Te \
+-b AlTe07.cleaned.bam -s AlTe07 -r Te \
+-b AlTe08.cleaned.bam -s AlTe08 -r Te \
+-b AlTe09.cleaned.bam -s AlTe09 -r Te \
+-b AlTe10.cleaned.bam -s AlTe10 -r Te \
+-b AlTe11.cleaned.bam -s AlTe11 -r Te \
+-b AlTe12.cleaned.bam -s AlTe12 -r Te \
+-b AlTe13.cleaned.bam -s AlTe13 -r Te \
+-b AlTe14.cleaned.bam -s AlTe14 -r Te \
+-b AlTe15.cleaned.bam -s AlTe15 -r Te \
+-b AlTe16.cleaned.bam -s AlTe16 -r Te \
+-b AlTe17.cleaned.bam -s AlTe17 -r Te \
+-b AlTe18.cleaned.bam -s AlTe18 -r Te \
+-b AlTe19.cleaned.bam -s AlTe19 -r Te \
+-b AlTe20.cleaned.bam -s AlTe20 -r Te \
+-b AlVC01.cleaned.bam -s AlVC01 -r VC \
+-b AlVC02.cleaned.bam -s AlVC02 -r VC \
+-b AlVC03.cleaned.bam -s AlVC03 -r VC \
+-b AlVC04.cleaned.bam -s AlVC04 -r VC \
+-b AlVC05.cleaned.bam -s AlVC05 -r VC \
+-b AlVC06.cleaned.bam -s AlVC06 -r VC \
+-b AlVC07.cleaned.bam -s AlVC07 -r VC \
+-b AlVC08.cleaned.bam -s AlVC08 -r VC \
+-b AlVC09.cleaned.bam -s AlVC09 -r VC \
+-b AlVC10.cleaned.bam -s AlVC10 -r VC \
+-b AlVC11.cleaned.bam -s AlVC11 -r VC \
+-b AlVC12.cleaned.bam -s AlVC12 -r VC \
+-b AlVC13.cleaned.bam -s AlVC13 -r VC \
+-b AlVC14.cleaned.bam -s AlVC14 -r VC \
+-b AlVC15.cleaned.bam -s AlVC15 -r VC \
+-b AlVC16.cleaned.bam -s AlVC16 -r VC \
+-b AlVC17.cleaned.bam -s AlVC17 -r VC \
+-b AlVC18.cleaned.bam -s AlVC18 -r VC \
+-b AlVC19.cleaned.bam -s AlVC19 -r VC \
+-b AlVC20.cleaned.bam -s AlVC20 -r VC \
+-b AlVC21.cleaned.bam -s AlVC21 -r VC \
+-b AlO01.cleaned.bam -s AlO01 -r Org \
+-b AlO02.cleaned.bam -s AlO02 -r Org \
+-b AlO03.cleaned.bam -s AlO03 -r Org \
+-b AlO04.cleaned.bam -s AlO04 -r Org \
+-b AlO05.cleaned.bam -s AlO05 -r Org \
+-b AlO06.cleaned.bam -s AlO06 -r Org \
+-b AlO07.cleaned.bam -s AlO07 -r Org \
+-b AlO08.cleaned.bam -s AlO08 -r Org \
+-b AlO09.cleaned.bam -s AlO09 -r Org \
+-b AlO10.cleaned.bam -s AlO10 -r Org \
+-b AlO11.cleaned.bam -s AlO11 -r Org \
+-b AlO12.cleaned.bam -s AlO12 -r Org \
+-b AlO13.cleaned.bam -s AlO13 -r Org \
+-b AlO14.cleaned.bam -s AlO14 -r Org \
+-b AlO15.cleaned.bam -s AlO15 -r Org \
+-b AlO16.cleaned.bam -s AlO16 -r Org \
+-b AlO17.cleaned.bam -s AlO17 -r Org \
+-b AlO18.cleaned.bam -s AlO18 -r Org \
+-b AlO19.cleaned.bam -s AlO10 -r Org \
+-b AlO20.cleaned.bam -s AlO20 -r Org \
+-b AlO21.cleaned.bam -s AlO21 -r Org \
+-b AlO22.cleaned.bam -s AlO22 -r Org \
+-b AlO23.cleaned.bam -s AlO23 -r Org \
+-b AlO24.cleaned.bam -s AlO24 -r Org \
+| freebayes --stdin --use-best-n-alleles 4 --min-coverage 12 -v snps.alt.all.vcf -f /home/esotocor/Doctorado/Alineamiento_bwa/GCA_002915635.3_AmbMex60DD_genomic_dot.fasta
+
+
+# SNPS obtained in variants.altamirani.vcf.gz: 16559917
+
+### SNP FILTERING WITH VCFTOOLS AND PLINK ###
+
+#!/bin/bash
+#$ -l qname=default
+#$ -cwd
+#$ -pe smp 20
+#$ -e vcf.ord.error
+#$ -o vcf.alt.log
+#$ -N vcf.alt
+
+vcftools --gzvcf variants.altamirani.vcf.gz --max-missing 1 --maf 0.05 --max-alleles 2 --min-alleles 2 --hwe 0.0001 --recode --out alt_fb_org_nomissing_bialeles_maf0.05_hwe0.0001
+
+SNPs obtained in alt_fb_org_nomissing_bialeles_maf0.05_hwe0.0001.recode.vcf: 273493
+
+#PLINK FOR R2 PRUNNING
+#Obtaining a chromosome map
+bcftools view -H alt_fb_org_nomissing_bialeles_maf0.05_hwe0.0001.recode.vcf | cut -f 1 | uniq | awk '{print $0"\t"$0}' > chrom-map.txt
+#Convert vcf to ped, map file
+vcftools --vcf alt_fb_org_nomissing_bialeles_maf0.05_hwe0.0001.recode.vcf --plink --chrom-map chrom-map.txt --out alt.variantplink
+  
+#R2 prunning
+./plink --file alt.variantplink --allow-extra-chr --indep-pairwise 100 5 0.5
+
+# Extract the the file with snps pruned from ped file
+./plink --file alt.variantplink --extract plink.prune.in --allow-extra-chr --make-bed --out alt.variants.pruned
+
+#Convert the bed file to ped file and generate map file
+./plink --bfile alt.variants.pruned --allow-extra-chr --recode tab --out alt.variants.pruned
+
+#Convert the ped file to vcf 
+./plink --file alt.variants.pruned --allow-extra-chr --recode vcf --out alt.variantsprunnedready.org.final
+
+SNPs obtained in alt.variantsprunnedready.new: 164609
+
+#Remove indels 
+vcftools --vcf alt.variantsprunnedready.org.final.vcf --remove-indels --recode --out alt.variantsprunnedready.org.noindel.final
+
+SNPs left: 117361
+
+
+### REMOVING SNPS THAT ARE OUTLIERS WITH BCFTOOLS ###
+bgzip -c alt.variantsprunnedready.org.noindel.final.recode.vcf > alt.variantsprunnedready.org.noindel.final.bgzip.vcf
+bcftools index alt.variantsprunnedready.org.noindel.final.bgzip.vcf
+
+#Convert file from csv (output from pcaadapt and rda in R) to .txt and keep CHROM and POS
+
+bcftools view alt.variantsprunnedready.org.noindel.final.bgzip.vcf -R snp.neutrals.final.ready.txt > alta.final.chroms.neutros.vcf 
+bcftools view alt.variantsprunnedready.org.final.bgzip.vcf -R snp.outlier.final.ready.txt> alta.final.chroms.outliers.vcf
+
+#Number of neutral SNPs: 115668
+#Number of outliers SNPs: 1693
+
+##Removing duplicates
+bcftools view alta.final.chroms.neutros.vcf -o alta.final.chroms.neutros.bcf 
+bcftools view alta.final.chroms.neutros.bcf | awk '/^#/{print}; !/^#/{if (!uniq[$3]++) print}' > alta.final.chroms.neutros.rm.bcf 
+bcftools view alta.final.chroms.neutros.rm.bcf -o alta.final.chroms.neutros.rm.vcf
+
+#Number of neutral SNPs: 115668
+
+### KEEPING SNPS THAT ARE ONLY IN  AXOLOTL CHROMOSOMES WITH BCFTOOLS in NEUTRAL SNP SET###
+#Extraer SNPs de ciertos contigs
+#Hacer lista de los cromosomas a mantener en txt con el csv hecho en R
+
+bgzip -c alta.final.chroms.neutros.vcf > alta.final.chroms.neutros.rm.bgzip.vcf
+bcftools index alta.final.chroms.neutros.rm.bgzip.vcf
+bcftools view alta.final.chroms.neutros.rm.bgzip.vcf -R chr.pos.axolotl.txt > alta.neutral.final.chroms.vcf
